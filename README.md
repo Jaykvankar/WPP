@@ -12,6 +12,7 @@ This repository contains resources, assignments, and notes related to the **WEB 
 - **Professor**: Dr. Pruthwik Mishra  
 
 ## Repository Structure
+Structred as Q##.py
 The repository is organized as follows:
 
 ```
