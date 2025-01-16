@@ -1,8 +1,10 @@
+# Input Data
 N=int(input("Enter number of Boxes : "))
 X=int(input("Enter the Xth box number : "))
 S=int(input("Enter number of Swaps : "))
 T=int(input("Enter total number of test case :"))
 i=0
+# Swaping if the box countain coin was swaped
 while i<T:
     for i in range(S):
         A=int(input("Enter A : "))
