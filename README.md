@@ -35,7 +35,6 @@ The repository is organized as follows:
 If you have any questions or need assistance, feel free to reach out.
 
 - **Name**: Jay Kamleshkumar Vankar  
-- **Email**: [Your Email Here]  
 - **Professor**: Dr. Pruthwik Mishra  
 
 *This repository is for academic purposes only.*
