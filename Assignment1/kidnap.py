@@ -1,4 +1,4 @@
-# Input Data
+# Input Data.
 N=int(input("Enter number of Boxes : "))
 X=int(input("Enter the Xth box number : "))
 S=int(input("Enter number of Swaps : "))
