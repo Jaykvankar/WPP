@@ -57,7 +57,6 @@ class RockPaperScissors:
         else:
             print("It's a tie!")
 
-# Example usage
 total_rounds = int(input("Enter number of rounds: "))
 game = RockPaperScissors(total_rounds)
 game.play_game()

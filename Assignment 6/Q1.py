@@ -6,21 +6,51 @@ class PasswordManager:
         return self.old_passwords[-1] if self.old_passwords else None
 
     def set_password(self, new_password):
-        if new_password not in self.old_passwords:
-            self.old_passwords.append(new_password)
-            return True
-        return False
+        if len(new_password) < 6:
+            print("Error: Password must be at least 6 characters long.")
+            return False
+        if new_password in self.old_passwords:
+            print("Error: Password has been used before. Choose a different one.")
+            return False
+        self.old_passwords.append(new_password)
+        print("Password updated successfully.")
+        return True
 
     def is_correct(self, password):
         return password == self.get_password()
-manager = PasswordManager()
-password= input("Enter the password: ")
-manager.set_password(password)
-print("The password updated")
-password= input("Enter new password: ")
-manager.set_password(password)
-manager.set_password("hi")
-print(manager.is_correct(password))
 
-for i in manager.old_passwords:
-    print(i)
+
+def menu():
+    manager = PasswordManager()
+
+    while True:
+        print("\nPassword Manager Menu:")
+        print("1. Set a new password")
+        print("2. Verify a password")
+        print("3. View password history")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            password = input("Enter a new password: ")
+            manager.set_password(password)
+
+        elif choice == "2":
+            password = input("Enter password to verify: ")
+            print("Password is correct!" if manager.is_correct(password) else "Incorrect password.")
+
+        elif choice == "3":
+            print("\nPassword history:")
+            for i, p in enumerate(manager.old_passwords, start=1):
+                print(f"{i}. {p}")
+
+        elif choice == "4":
+            print("Exiting Password Manager. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please enter a number from 1 to 4.")
+
+if __name__=="__main__":
+    menu()
