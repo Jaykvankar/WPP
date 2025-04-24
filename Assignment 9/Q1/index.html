@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodieExpress - Online Food Delivery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body style="background-image: url('images/background.jpg'); background-size: cover; background-position: center; font-family: 'Poppins', sans-serif;">
+  <header>
+    <h1 style="font-size: 3rem; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">FoodieExpress</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="search-bar" style="margin-top: 20px;">
+      <input type="text" id="search" placeholder="Search for food..." style="padding: 12px; width: 60%; border-radius: 25px; border: none; font-size: 16px;">
+      <button onclick="searchFood()" style="padding: 12px 30px; border-radius: 25px; background-color: #ff6347; color: white; border: none; cursor: pointer; font-size: 16px;">Search</button>
+    </div>
+  </header>
+
+  <section id="home" class="section hero">
+    <h2>Delicious Meals Delivered Fast!</h2>
+    <p>Craving something tasty? Order now and enjoy from the comfort of your home.</p>
+    <button>Order Now</button>
+  </section>
+
+  <section id="menu" class="section">
+    <h2>Our Popular Dishes</h2>
+    <div class="menu-container" id="menu-container">
+      <div class="menu-item" data-name="burger">
+        <img src="images/burger.jpg" alt="Burger" />
+        <h3>Cheese Burger</h3>
+        <p>Juicy and cheesy, topped with fresh veggies and sauce. <span>₹499</span></p>
+      </div>
+      <div class="menu-item" data-name="pizza">
+        <img src="images/pizza.jpg" alt="Pizza" />
+        <h3>Margherita Pizza</h3>
+        <p>Classic pizza with mozzarella cheese, fresh basil, and tomato sauce. <span>₹699</span></p>
+      </div>
+      <div class="menu-item" data-name="pasta">
+        <img src="images/pasta.jpg" alt="Pasta" />
+        <h3>Creamy Pasta</h3>
+        <p>Creamy white sauce pasta with garlic bread on the side. <span>₹599</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <h2>About FoodieExpress</h2>
+    <p>We are passionate about delivering fresh and delicious meals to your doorstep. Our chefs use only the best ingredients to ensure your satisfaction.</p>
+  </section>
+
+  <section id="contact" class="section contact">
+    <h2>Contact Us</h2>
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 FoodieExpress. Delivering happiness to your doorstep!</p>
+  </footer>
+
+  <script>
+    function searchFood() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => {
+        const name = item.getAttribute('data-name');
+        if (name.includes(query)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
