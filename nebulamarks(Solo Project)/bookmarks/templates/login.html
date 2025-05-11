@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Background styling -->
+<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://images.unsplash.com/photo-1614850715649-1d0106293bd1?q=80&w=2070'); background-size: cover; background-position: center; opacity: 0.07; z-index: -1;"></div>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4 text-center">Login to NebulaMarks</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" class="card p-4 shadow-sm">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    id="username" 
+                    class="form-control" 
+                    placeholder="Enter your username" 
+                    required
+                >
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    class="form-control" 
+                    placeholder="Enter your password" 
+                    required
+                >
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <p>
+                Don't have an account? 
+                <a href="{% url 'signup' %}">Sign up here</a>.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

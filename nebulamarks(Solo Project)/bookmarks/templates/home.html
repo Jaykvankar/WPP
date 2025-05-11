@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://images.unsplash.com/photo-1614850715649-1d0106293bd1?q=80&w=2070'); background-size: cover; background-position: center; opacity: 0.07; z-index: -1;"></div>
+  <div class="row justify-content-center">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="text-primary fw-bold border-bottom pb-3">
+        <i class="fas fa-bookmark me-2"></i>Bookmark Manager
+      </h2>
+    </div>
+  </div>
+
+  <!-- Alert Messages -->
+  {% if messages %}
+    <div class="row mb-4">
+      <div class="col-12">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} shadow-sm fade show" role="alert">
+            <i class="fas fa-info-circle me-2"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="row g-4">
+    <!-- Left Sidebar: Forms -->
+    <div class="col-md-4">
+      <!-- Add Bookmark Card -->
+      <div class="card border-0 shadow-sm mb-4 hover-shadow">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fas fa-plus-circle text-primary me-2"></i>Add New Bookmark
+          </h5>
+        </div>
+        <div class="card-body">
+          <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              {{ bookmark_form.as_p|safe }}
+            </div>
+            <button type="submit" name="add_bookmark" class="btn btn-primary w-100">
+              <i class="fas fa-save me-2"></i>Save Bookmark
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Add Category Card -->
+      <div class="card border-0 shadow-sm hover-shadow">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fas fa-folder-plus text-primary me-2"></i>Add New Category
+          </h5>
+        </div>
+        <div class="card-body">
+          <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              {{ category_form.as_p|safe }}
+            </div>
+            <button type="submit" name="add_category" class="btn btn-outline-primary w-100">
+              <i class="fas fa-plus me-2"></i>Add Category
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Content Area -->
+    <div class="col-md-8">
+      <!-- Bookmarks Card -->
+      <div class="card border-0 shadow-sm mb-4 hover-shadow">
+        <div class="card-header bg-white py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+              <i class="fas fa-bookmark text-primary me-2"></i>My Bookmarks
+            </h5>
+            
+            <!-- Category Filter -->
+            <form method="get" class="mb-0">
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-filter"></i>
+                </span>
+                <select id="category-select" name="category" onchange="this.form.submit()" 
+                  class="form-select form-select-sm" style="min-width: 150px;">
+                  <option value="">All Categories</option>
+                  {% for category in categories %}
+                    <option value="{{ category.id }}" 
+                      {% if category.id|stringformat:"s" == selected_category_id %}selected{% endif %}>
+                      {{ category.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush">
+            {% for bookmark in bookmarks %}
+              <div class="list-group-item hover-bg-light">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="ms-2 me-auto">
+                    <h6 class="fw-bold mb-1">{{ bookmark.title }}</h6>
+                    <a href="{{ bookmark.url }}" target="_blank" 
+                      class="text-decoration-none text-muted text-truncate d-inline-block" 
+                      style="max-width: 400px;">
+                      <i class="fas fa-link me-1"></i>{{ bookmark.url }}
+                    </a>
+                    <div class="mt-2">
+                      <span class="badge rounded-pill bg-light text-dark border">
+                        <i class="fas fa-folder me-1"></i>{{ bookmark.category.name }}
+                      </span>
+                    </div>
+                  </div>
+                  <form method="post" class="ms-2">
+                    {% csrf_token %}
+                    <button type="submit" name="delete_bookmark" value="{{ bookmark.id }}" 
+                      class="btn btn-outline-danger btn-sm">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% empty %}
+              <div class="text-center p-5 text-muted">
+                <i class="fas fa-bookmark fa-2x mb-3"></i>
+                <p class="mb-0">No bookmarks found</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Categories Card -->
+      <div class="card border-0 shadow-sm hover-shadow">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">
+            <i class="fas fa-folder text-primary me-2"></i>Categories
+          </h5>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            {% for category in categories %}
+              <li class="list-group-item d-flex justify-content-between align-items-center hover-bg-light">
+                <span>
+                  <i class="fas fa-folder me-2 text-primary"></i>{{ category.name }}
+                </span>
+                {% if category.name != "General" %}
+                <form method="post">
+                  {% csrf_token %}
+                  <button type="submit" name="delete_category" value="{{ category.id }}" 
+                    class="btn btn-outline-danger btn-sm">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </form>
+                {% endif %}
+              </li>
+            {% empty %}
+              <li class="list-group-item text-center text-muted p-4">
+                <i class="fas fa-folder-open fa-2x mb-3"></i>
+                <p class="mb-0">No categories found</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+.hover-shadow:hover {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+  transition: box-shadow .3s ease-in-out;
+}
+
+.hover-bg-light:hover {
+  background-color: rgba(0,0,0,.03);
+}
+
+.card {
+  transition: all .3s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+.btn {
+  transition: all .2s ease-in-out;
+}
+
+.btn-outline-danger {
+  padding: .25rem .5rem;
+}
+
+.badge {
+  font-weight: 500;
+}
+</style>
+{% endblock %}
